@@ -1,5 +1,5 @@
 (def project 'com.grzm/pajamas.alpha)
-(def version "0.1.0-SNAPSHOT")
+(def version "0.1.0")
 
 (set-env! :resource-paths #{"resources" "src" "test/resources"}
           :source-paths   #{"test/shared" "test/common_types"}
