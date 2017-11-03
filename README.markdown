@@ -1,5 +1,7 @@
 # Pajamas: Comfy Clojure for PostgreSQL and JDBC
 
+**NOTE: This is alpha. The API is not stable.**
+
 Pajamas provides three nice features:
 
 Easy type conversion:
@@ -11,7 +13,7 @@ Easy type conversion:
 Convenient query shorthands:
 
 ```clojure
-(require '[grzm.pajamas.alpha.query :as q])
+(require '[com.grzm.pajamas.alpha.query :as q])
 
 (q/row spec [(q/str "SELECT user_display_name, user_last_logged_in_at"
                     "FROM my.users"
