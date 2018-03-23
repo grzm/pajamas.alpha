@@ -9,18 +9,17 @@
                             [cheshire "5.7.1"]
                             [cider/cider-nrepl "0.15.0-SNAPSHOT" :scope "test"]
                             [enlive "1.1.6" :scope "test"]
-                            [environ "1.1.0"]
-                            [com.grzm/pique.alpha "0.1.0-SNAPSHOT" :scope "test"]
-                            [com.grzm/tespresso.alpha "0.1.0-SNAPSHOT" :scope "test"]
+                            [com.grzm/pique.alpha "0.1.6" :scope "test"]
+                            [com.grzm/tespresso.alpha "0.1.11" :scope "test"]
                             [metosin/boot-alt-test "0.3.2" :scope "test"]
                             [org.clojure/clojure "RELEASE"]
-                            [org.clojure/java.jdbc "0.7.0-beta2"]
+                            [org.clojure/java.jdbc "0.7.0-beta2" :scope "test"]
                             [org.clojure/spec.alpha "0.1.123" :scope "test"]
-                            [org.clojure/test.check "0.9.1-SNAPSHOT" :scope "test"]
+                            [org.clojure/test.check "0.10.0-alpha2" :scope "test"]
                             [org.clojure/tools.logging "0.4.0"]
                             [org.clojure/tools.nrepl "0.2.12" :scope "test"]
                             ;; comment out the PostgreSQL driver when testing other versions
-                            [org.postgresql/postgresql "42.0.0"]
+                            [org.postgresql/postgresql "42.2.2" :scope "test"]
                             [refactor-nrepl "2.4.0-SNAPSHOT" :scope "test"]
                             [tolitius/boot-check "0.1.4-SNAPSHOT" :scope "test"]
                             [zprint "0.4.2" :scope "test"]])
@@ -114,12 +113,12 @@
        (remove #(some (set deps) ((juxt first (comp symbol name first)) %)))
        vec))
 
-(def default-jdbc-driver-version "42.0.0")
+(def default-jdbc-driver-version "42.2.2")
 
 (def jdbc-drivers
   ;; 9.4.1207 first version with PgArray
   ;; 9.4-1206 JDBC 41 last release without PgArray
-  '#{[org.postgresql/postgresql "42.0.0"]
+  '#{[org.postgresql/postgresql "42.2.2"]
      [org.postgresql/postgresql "9.4-1201-jdbc41"]
      [org.postgresql/postgresql "9.4-1202-jdbc42"]
      [org.postgresql/postgresql "9.4-1206-jdbc41"]
@@ -179,3 +178,13 @@
   "generate html documentation"
   []
   (comp (target) (codox)))
+
+(task-options!
+  push
+  {:repo "clojars"
+   :gpg-sign false})
+
+(deftask deploy []
+  (do
+    (config-repos!)
+    (comp (pom) (jar) (push))))
